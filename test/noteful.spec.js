@@ -1,6 +1,6 @@
 const knex = require('knex');
 const app = require('../src/app');
-const { makeFolderArray, makeMaliciousFolder } = require('./folders.fixtures');
+const { makeFolderArray } = require('./folders.fixtures');
 const { makeNoteArray, makeMaliciousNote } = require('./notes.fixtures');
 
 describe('noteful Endpoints', function() {
