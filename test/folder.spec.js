@@ -311,7 +311,7 @@ describe('noteful Endpoints', function() {
           })
           .expect(400, {
             error: {
-              message: `Request body must contain either 'note_name', 'folder_id' or 'content'`
+              message: `Request body must contain either 'note_name', 'folder_id', or 'content'`
             }
           });
       });
