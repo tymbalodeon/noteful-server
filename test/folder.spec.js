@@ -1,7 +1,6 @@
 const knex = require('knex');
 const app = require('../src/app');
 const { makeFolderArray, makeMaliciousFolder } = require('./folders.fixtures');
-
 const { makeNoteArray, makeMaliciousNote } = require('./notes.fixtures');
 
 describe('noteful Endpoints', function() {
@@ -134,7 +133,7 @@ describe('noteful Endpoints', function() {
           .expect(200)
           .expect(res => {
             expect(res.body.note_name).to.eql(expectedNote.note_name);
-            expect(res.body.content).to.eql(expectednNote.content);
+            expect(res.body.content).to.eql(expectedNote.content);
           });
       });
     });

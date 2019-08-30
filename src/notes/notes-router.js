@@ -11,7 +11,7 @@ const serializeNote = note => ({
   note_name: xss(note.note_name),
   modified: note.modified,
   folder_id: note.folder_id,
-  content: note.content
+  content: xss(note.content)
 });
 
 notesRouter
@@ -53,7 +53,7 @@ notesRouter
       .then(note => {
         if (!note) {
           return res.status(404).json({
-            error: { message: `note doesn't exist` }
+            error: { message: 'note doesn\'t exist' }
           });
         }
         res.note = note;
@@ -79,7 +79,7 @@ notesRouter
     if (numberOfValues === 0)
       return res.status(400).json({
         error: {
-          message: `Request body must contain either 'note_name', 'folder_id', or 'content'`
+          message: 'Request body must contain either \'note_name\', \'folder_id\', or \'content\''
         }
       });
 
