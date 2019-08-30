@@ -95,7 +95,7 @@ describe('noteful Endpoints', function() {
 
     context('Given there are notes in the database', () => {
       const testFolders = makeFolderArray();
-      const testNotes = makeNotesArray();
+      const testNotes = makeNoteArray();
 
       beforeEach('insert notes', () => {
         return db
@@ -141,7 +141,7 @@ describe('noteful Endpoints', function() {
   });
 
   describe(`POST /api/notes`, () => {
-    const testFolders = makeFoldersArray();
+    const testFolders = makeFolderArray();
     beforeEach('insert malicious note', () => {
       return db.into('folders').insert(testFolders);
     });
@@ -226,8 +226,8 @@ describe('noteful Endpoints', function() {
     });
 
     context('Given there are notes in the database', () => {
-      const testFolders = makeFoldersArray();
-      const testNotes = makeNotesArray();
+      const testFolders = makeFolderArray();
+      const testNotes = makeNoteArray();
 
       beforeEach('insert notes', () => {
         return db
@@ -268,8 +268,8 @@ describe('noteful Endpoints', function() {
     });
 
     context('Given there are notes in the database', () => {
-      const testFolders = makeFoldersArray();
-      const testNotes = makeNotesArray();
+      const testFolders = makeFolderArray();
+      const testNotes = makeNoteArray();
 
       beforeEach('insert notes', () => {
         return db
