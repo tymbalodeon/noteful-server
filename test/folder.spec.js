@@ -148,8 +148,8 @@ describe('noteful Endpoints', function() {
 
     it(`creates an note, responding with 201 and the new note`, () => {
       const newNote = {
-        title: 'Test new note',
-        style: 'Listicle',
+        note_name: 'Test new note',
+        folder_id: 2,
         content: 'Test new note content...'
       };
       return supertest(app)
@@ -157,14 +157,14 @@ describe('noteful Endpoints', function() {
         .send(newNote)
         .expect(201)
         .expect(res => {
-          expect(res.body.title).to.eql(newNote.title);
-          expect(res.body.style).to.eql(newNote.style);
+          expect(res.body.title).to.eql(newNote.note_name);
+          expect(res.body.style).to.eql(newNote.folder_id);
           expect(res.body.content).to.eql(newNote.content);
           expect(res.body).to.have.property('id');
           expect(res.headers.location).to.eql(`/api/notes/${res.body.id}`);
           const expected = new Intl.DateTimeFormat('en-US').format(new Date());
           const actual = new Intl.DateTimeFormat('en-US').format(
-            new Date(res.body.date_published)
+            new Date(res.body.modified)
           );
           expect(actual).to.eql(expected);
         })
@@ -179,8 +179,8 @@ describe('noteful Endpoints', function() {
 
     requiredFields.forEach(field => {
       const newNote = {
-        title: 'Test new note',
-        style: 'Listicle',
+        note_name: 'Test new note',
+        folder_id: 2,
         content: 'Test new note content...'
       };
 
