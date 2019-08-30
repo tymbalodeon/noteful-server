@@ -72,7 +72,7 @@ describe('noteful Endpoints', function() {
           .get(`/api/notes`)
           .expect(200)
           .expect(res => {
-            expect(res.body[0].title).to.eql(expectedNote.title);
+            expect(res.body[0].note_name).to.eql(expectedNote.note_name);
             expect(res.body[0].content).to.eql(expectedNote.content);
           });
       });
@@ -133,7 +133,7 @@ describe('noteful Endpoints', function() {
           .get(`/api/notes/${maliciousNote.id}`)
           .expect(200)
           .expect(res => {
-            expect(res.body.title).to.eql(expectedNote.title);
+            expect(res.body.note_name).to.eql(expectedNote.note_name);
             expect(res.body.content).to.eql(expectednNote.content);
           });
       });
@@ -157,8 +157,8 @@ describe('noteful Endpoints', function() {
         .send(newNote)
         .expect(201)
         .expect(res => {
-          expect(res.body.title).to.eql(newNote.note_name);
-          expect(res.body.style).to.eql(newNote.folder_id);
+          expect(res.body.note_name).to.eql(newNote.note_name);
+          expect(res.body.folder_id).to.eql(newNote.folder_id);
           expect(res.body.content).to.eql(newNote.content);
           expect(res.body).to.have.property('id');
           expect(res.headers.location).to.eql(`/api/notes/${res.body.id}`);
@@ -175,7 +175,7 @@ describe('noteful Endpoints', function() {
         );
     });
 
-    const requiredFields = ['title', 'style', 'content'];
+    const requiredFields = ['note_name', 'folder_id', 'content'];
 
     requiredFields.forEach(field => {
       const newNote = {
@@ -205,7 +205,7 @@ describe('noteful Endpoints', function() {
         .send(maliciousNote)
         .expect(201)
         .expect(res => {
-          expect(res.body.title).to.eql(expectedNote.title);
+          expect(res.body.note_name).to.eql(expectedNote.note_name);
           expect(res.body.content).to.eql(expectedNote.content);
         });
     });
@@ -283,9 +283,9 @@ describe('noteful Endpoints', function() {
       it('responds with 204 and updates the note', () => {
         const idToUpdate = 2;
         const updateNote = {
-          title: 'updated note title',
-          style: 'Interview',
-          content: 'updated note content'
+          note_name: 'Test new note',
+          folder_id: 2,
+          content: 'Test new note content...'
         };
         const expectedNote = {
           ...testNotes[idToUpdate - 1],
@@ -311,7 +311,7 @@ describe('noteful Endpoints', function() {
           })
           .expect(400, {
             error: {
-              message: `Request body must contain either 'title', 'style' or 'content'`
+              message: `Request body must contain either 'note_name', 'folder_id' or 'content'`
             }
           });
       });
@@ -319,7 +319,7 @@ describe('noteful Endpoints', function() {
       it(`responds with 204 when updating only a subset of fields`, () => {
         const idToUpdate = 2;
         const updateNote = {
-          title: 'updated note title'
+          note_name: 'updated note name'
         };
         const expectedNote = {
           ...testNotes[idToUpdate - 1],
