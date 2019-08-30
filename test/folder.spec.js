@@ -141,11 +141,18 @@ describe('noteful Endpoints', function() {
 
   describe(`POST /api/notes`, () => {
     const testFolders = makeFolderArray();
-    beforeEach('insert malicious note', () => {
-      return db.into('folders').insert(testFolders);
+    const testNotes = makeNoteArray();
+
+    beforeEach('insert notes', () => {
+      return db
+        .into('folders')
+        .insert(testFolders)
+        .then(() => {
+          return db.into('notes').insert(testNotes);
+        });
     });
 
-    it(`creates an note, responding with 201 and the new note`, () => {
+    it(`creates a note, responding with 201 and the new note`, () => {
       const newNote = {
         note_name: 'Test new note',
         folder_id: 2,

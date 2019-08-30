@@ -25,7 +25,7 @@ notesRouter
       .catch(next);
   })
   .post(jsonParser, (req, res, next) => {
-    const { note_name, modified, folder_id, content } = req.body;
+    const { note_name, folder_id, content } = req.body;
     const newNote = { note_name, folder_id, content };
 
     for (const [key, value] of Object.entries(newNote))
@@ -34,9 +34,8 @@ notesRouter
           error: { message: `Missing '${key}' in request body` }
         });
 
-    newNote.modified = modified;
-
-    NotesService.insertnote(req.app.get('db'), newNote)
+    console.log(newNote);
+    NotesService.insertNote(req.app.get('db'), newNote)
       .then(note => {
         res
           .status(201)
@@ -65,7 +64,7 @@ notesRouter
     res.json(serializeNote(res.note));
   })
   .delete((req, res, next) => {
-    NotesService.deletenote(req.app.get('db'), req.params.note_id)
+    NotesService.deleteNote(req.app.get('db'), req.params.note_id)
       .then(() => {
         res.status(204).end();
       })
@@ -79,13 +78,14 @@ notesRouter
     if (numberOfValues === 0)
       return res.status(400).json({
         error: {
-          message: 'Request body must contain either \'note_name\', \'folder_id\', or \'content\''
+          message:
+            'Request body must contain either \'note_name\', \'folder_id\', or \'content\''
         }
       });
 
     noteToUpdate.modified = modified;
 
-    NotesService.updatenote(req.app.get('db'), req.params.note_id, noteToUpdate)
+    NotesService.updateNote(req.app.get('db'), req.params.note_id, noteToUpdate)
       .then(() => {
         res.status(204).end();
       })
