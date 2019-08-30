@@ -27,7 +27,7 @@ foldersRouter
 
     if (folder_name === null) {
       return res.status(400).json({
-        error: { message: "Missing 'folder_name' in request body" }
+        error: { message: 'Missing \'folder_name\' in request body' }
       });
     }
 
@@ -48,7 +48,7 @@ foldersRouter
       .then(folder => {
         if (!folder) {
           return res.status(404).json({
-            error: { message: `folder doesn't exist` }
+            error: { message: 'folder doesn\'t exist' }
           });
         }
         res.folder = folder;
@@ -72,7 +72,7 @@ foldersRouter
 
     if (folder_name === null) {
       return res.status(400).json({
-        error: { message: "Missing 'folder_name' in request body" }
+        error: { message: 'Missing \'folder_name\' in request body' }
       });
     }
 
