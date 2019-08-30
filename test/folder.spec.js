@@ -1,4 +1,3 @@
-const { makeFolderArray } = require('./folders.fixtures')
 const knex = require('knex')
 const app = require('../src/app')
 const {
