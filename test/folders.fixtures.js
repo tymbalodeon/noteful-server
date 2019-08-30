@@ -1,11 +1,9 @@
 function makeFolderArray() {
   return [
     {
-      id: 1,
       folder_name: '1st folder'
     },
     {
-      id: 2,
       folder_name: '2nd folder'
     }
   ];

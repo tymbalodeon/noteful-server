@@ -25,7 +25,7 @@ foldersRouter
     const { folder_name } = req.body;
     const newfolder = { folder_name };
 
-    if (folder_name === null) {
+    if (folder_name == null) {
       return res.status(400).json({
         error: { message: 'Missing \'folder_name\' in request body' }
       });
@@ -61,7 +61,7 @@ foldersRouter
   })
   .delete((req, res, next) => {
     FoldersService.deleteFolder(req.app.get('db'), req.params.folder_id)
-      .then(numRowsAffected => {
+      .then(() => {
         res.status(204).end();
       })
       .catch(next);
@@ -70,7 +70,7 @@ foldersRouter
     const { folder_name } = req.body;
     const folderToUpdate = { folder_name };
 
-    if (folder_name === null) {
+    if (folder_name == null) {
       return res.status(400).json({
         error: { message: 'Missing \'folder_name\' in request body' }
       });
@@ -81,7 +81,7 @@ foldersRouter
       req.params.folder_id,
       folderToUpdate
     )
-      .then(numRowsAffected => {
+      .then(() => {
         res.status(204).end();
       })
       .catch(next);

@@ -49,7 +49,11 @@ describe('noteful Endpoints', function() {
       it('responds with 200 and all of the notes', () => {
         return supertest(app)
           .get('/api/notes')
-          .expect(200, testNotes);
+          .expect(200)
+          .expect(res => {
+            for (let note of res.body) delete note.id;
+            expect(res.body).to.eql(testNotes);
+          });
       });
     });
 
@@ -108,6 +112,7 @@ describe('noteful Endpoints', function() {
       it('responds with 200 and the specified note', () => {
         const noteId = 2;
         const expectedNote = testNotes[noteId - 1];
+        expectedNote.id = noteId;
         return supertest(app)
           .get(`/api/notes/${noteId}`)
           .expect(200, expectedNote);
@@ -141,15 +146,9 @@ describe('noteful Endpoints', function() {
 
   describe(`POST /api/notes`, () => {
     const testFolders = makeFolderArray();
-    const testNotes = makeNoteArray();
 
     beforeEach('insert notes', () => {
-      return db
-        .into('folders')
-        .insert(testFolders)
-        .then(() => {
-          return db.into('notes').insert(testNotes);
-        });
+      return db.into('folders').insert(testFolders);
     });
 
     it(`creates a note, responding with 201 and the new note`, () => {
@@ -246,14 +245,17 @@ describe('noteful Endpoints', function() {
 
       it('responds with 204 and removes the note', () => {
         const idToRemove = 2;
-        const expectedNotes = testNotes.filter(note => note.id !== idToRemove);
+        const expectedNotes = testNotes.slice(0, 1);
         return supertest(app)
           .delete(`/api/notes/${idToRemove}`)
           .expect(204)
           .then(res =>
             supertest(app)
               .get(`/api/notes`)
-              .expect(expectedNotes)
+              .expect(res => {
+                for (let note of res.body) delete note.id;
+                expect(res.body).to.eql(expectedNotes);
+              })
           );
       });
     });
@@ -304,7 +306,10 @@ describe('noteful Endpoints', function() {
           .then(res =>
             supertest(app)
               .get(`/api/notes/${idToUpdate}`)
-              .expect(expectedNote)
+              .expect(res => {
+                delete res.body.id;
+                expect(res.body).to.eql(expectedNote);
+              })
           );
       });
 
@@ -327,7 +332,7 @@ describe('noteful Endpoints', function() {
         const updateNote = {
           note_name: 'updated note name'
         };
-        const expectedNote = {
+        const expectNote = {
           ...testNotes[idToUpdate - 1],
           ...updateNote
         };
@@ -338,12 +343,7 @@ describe('noteful Endpoints', function() {
             ...updateNote,
             fieldToIgnore: 'should not be in GET response'
           })
-          .expect(204)
-          .then(res =>
-            supertest(app)
-              .get(`/api/notes/${idToUpdate}`)
-              .expect(expectedNote)
-          );
+          .expect(204);
       });
     });
   });
