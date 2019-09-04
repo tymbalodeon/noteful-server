@@ -66,7 +66,7 @@ notesRouter
   .delete((req, res, next) => {
     NotesService.deleteNote(req.app.get('db'), req.params.note_id)
       .then(() => {
-        res.status(204).end();
+        res.status(200).end();
       })
       .catch(next);
   })
